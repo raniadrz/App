@@ -1,94 +1,88 @@
-import React from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
-import { GoogleSignin } from 'react-native-google-signin';
-import { Animated } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+// import {GoogleLogin} from 'react-google-login';
 
-const clientId = '1049345531206-67l3i359qsevs174naudcqj5id5a8f1p.apps.googleusercontent.com';
-
-// Google Login Success and Failure Callbacks
-const onSuccess = (response) => {
-  console.log('Google login successful:', response);
-  // Handle the successful login, e.g., navigate to the next screen
-};
-const onFailure = (error) => {
-  console.log('Google login failed:', error);
-  // Handle the failed login, e.g., show an error message
-};
-
+// const clientId = "1049345531206-67l3i359qsevs174naudcqj5id5a8f1p.apps.googleusercontent.com";
 export default function LoginScreen() {
-  const navigation = useNavigation();
-
+    const navigation = useNavigation();
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <StatusBar style="light" />
-      <Image style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} source={require('../assets/images/background.png')} />
+    <View className="bg-white h-full w-full">
+        <StatusBar style="light" />
+        <Image className="h-full w-full absolute" source={require('../assets/images/background.png')} />
 
-      {/* lights */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', position: 'absolute', width: '100%' }}>
-        <Animated.Image
-          source={require('../assets/images/light.png')}
-          style={{ height: 225, width: 90 }}
-        />
-        <Animated.Image
-          source={require('../assets/images/light.png')}
-          style={{ height: 160, width: 65, opacity: 0.75 }}
-        />
-      </View>
-
-      {/* title and form */}
-      <View style={{ flex: 1, justifyContent: 'space-around', paddingTop: 40, paddingBottom: 10 }}>
-        <Animated.View
-          style={{ width: '100%', opacity: 0, transform: [{ translateY: -20 }] }} // Placeholder animation styles
-        >
-          {/* Google Login Button */}
-          <GoogleSignin
-            clientId={clientId}
-            buttonText="Login with Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={'single_host_origin'}
-          />
-        </Animated.View>
-
-        {/* title */}
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Animated.Text style={{ color: 'white', fontWeight: 'bold', letterSpacing: 1, fontSize: 30 }}>
-            Login
-          </Animated.Text>
+        {/* lights */}
+        <View className="flex-row justify-around w-full absolute">
+            <Animated.Image 
+                entering={FadeInUp.delay(200).duration(1000).springify()} 
+                source={require('../assets/images/light.png')} 
+                className="h-[225] w-[90]" 
+            />
+            <Animated.Image 
+                entering={FadeInUp.delay(400).duration(1000).springify()} 
+                source={require('../assets/images/light.png')} 
+                className="h-[160] w-[65] opacity-75" 
+            />
         </View>
 
-        {/* form */}
-        <View style={{ flex: 2, alignItems: 'center', marginHorizontal: 5, justifyContent: 'space-between' }}>
-          <Animated.View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: 20, borderRadius: 20, width: '100%' }}>
-            <TextInput
-              placeholder="Email"
-              placeholderTextColor={'gray'}
-            />
-          </Animated.View>
-          <Animated.View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: 20, borderRadius: 20, width: '100%', marginBottom: 20 }}>
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor={'gray'}
-              secureTextEntry
-            />
-          </Animated.View>
+        {/* title and form */}
+        <View className="h-full w-full flex justify-around pt-40 pb-10">
+            
+            {/* title */}
+            <View className="flex items-center">
+                <Animated.Text 
+                    entering={FadeInUp.duration(1000).springify()} 
+                    className="text-white font-bold tracking-wider text-5xl">
+                        Login
+                </Animated.Text>
+            </View>
 
-          <Animated.View style={{ width: '100%', opacity: 0, transform: [{ translateY: 20 }] }}> 
-            <TouchableOpacity style={{ backgroundColor: '#3498db', padding: 15, borderRadius: 20, marginBottom: 20 }}>
-              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Login</Text>
-            </TouchableOpacity>
-          </Animated.View>
+            {/* form */}
+            <View className="flex items-center mx-5 space-y-4">
+                <Animated.View 
+                    entering={FadeInDown.duration(1000).springify()} 
+                    className="bg-black/5 p-5 rounded-2xl w-full">
 
-          <Animated.View style={{ flexDirection: 'row', justifyContent: 'center', opacity: 0, transform: [{ translateY: 20 }] }}>
-            <Text style={{ color: 'black' }}>Don't have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.push('Signup')}>
-              <Text style={{ color: '#3498db' }}>SignUp</Text>
-            </TouchableOpacity>
-          </Animated.View>
+                    <TextInput
+                        placeholder="Email"
+                        placeholderTextColor={'gray'}
+                    />
+                </Animated.View>
+                <Animated.View 
+                    entering={FadeInDown.delay(200).duration(1000).springify()} 
+                    className="bg-black/5 p-5 rounded-2xl w-full mb-3">
+
+                    <TextInput
+                        placeholder="Password"
+                        placeholderTextColor={'gray'}
+                        secureTextEntry
+                    />
+                </Animated.View>
+
+                <Animated.View 
+                    className="w-full" 
+                    entering={FadeInDown.delay(400).duration(1000).springify()}>
+
+                    <TouchableOpacity className="w-full bg-sky-400 p-3 rounded-2xl mb-3">
+                        <Text className="text-xl font-bold text-white text-center">Login</Text>
+                    </TouchableOpacity>
+                </Animated.View>
+
+                
+
+                <Animated.View 
+                    entering={FadeInDown.delay(600).duration(1000).springify()} 
+                    className="flex-row justify-center">
+
+                    <Text>Don't have an account? </Text>
+                    <TouchableOpacity onPress={()=> navigation.push('Signup')}>
+                        <Text className="text-sky-600">SignUp</Text>
+                    </TouchableOpacity>
+                </Animated.View>
+            </View>
         </View>
-      </View>
     </View>
-  );
+  )
 }
